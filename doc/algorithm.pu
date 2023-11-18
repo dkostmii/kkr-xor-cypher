@@ -1,0 +1,46 @@
+@startuml
+
+!theme plain
+
+skinparam dpi 150
+
+start
+:alphabet = "АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ_0123456789",
+N = alphabet.length; <<task>>
+
+#lightgray:action, key, text; <<input>>
+
+if (action?) is (decrypt) then
+	:i = 0,
+	T = **new** String[text.length]; <<task>>
+
+	while (i < text.length)
+		:key-index = i **mod** key.length; <<task>>
+
+		:C_i = alphabet.indexOf(text[i]),
+		G_i = alphabet.indexOf(key[key-index]); <<task>>
+
+		:T[i] = alphabet[(C_i - G_i + N) **mod** N)]; <<task>>
+		:i++; <<task>>
+	endwhile (i == text.length)
+
+	#lightgray:T; <<output>>
+else (encrypt)
+	:i = 0,
+	C = **new** String[text.length]; <<task>>
+
+	while (i < text.length)
+		:key-index = i **mod** key.length; <<task>>
+
+		:T_i = alphabet.indexOf(text[i]),
+		G_i = alphabet.indexOf(key[key-index]); <<task>>
+
+		:C[i] = alphabet[(T_i + G_i) **mod** N]; <<task>>
+		:i++; <<task>>
+	endwhile (i == text.length)
+
+	#lightgray:C; <<output>>
+endif
+stop
+
+@enduml
